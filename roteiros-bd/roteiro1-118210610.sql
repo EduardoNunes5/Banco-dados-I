@@ -106,9 +106,9 @@ ALTER TABLE pericia ADD COLUMN perito_fk VARCHAR(11);
 ALTER TABLE pericia ADD CONSTRAINT perito_fk FOREIGN KEY (perito_fk)
 REFERENCES perito(cpf);
 
-ALTER TABLE pericia ADD COLUMN automovel_fk INTEGER;
-ALTER TABLE pericia ADD CONSTRAINT automovel_fk FOREIGN KEY (automovel_fk)
-REFERENCES automovel(automovel_pk);
+ALTER TABLE pericia ADD COLUMN sinistro_fk INTEGER;
+ALTER TABLE pericia ADD CONSTRAINT sinistro_fk FOREIGN KEY (sinistro_fk)
+REFERENCES sinistro(sinistro_pk);
 
 -- reparo realizado em um automovel e tb em uma oficina
 
@@ -120,14 +120,15 @@ ALTER TABLE reparo ADD COLUMN oficina_fk INTEGER;
 ALTER TABLE reparo ADD CONSTRAINT oficina_fk FOREIGN KEY (oficina_fk)
 REFERENCES oficina(oficina_pk);
 
+
 ---------------- 4 FIM    ----------
 
 ---------------- 5 e 6 COMECO ----------
 
+DROP TABLE IF EXISTS pericia;
 DROP TABLE IF EXISTS sinistro;
 DROP TABLE IF EXISTS seguro;
 DROP TABLE IF EXISTS segurado;
-DROP TABLE IF EXISTS pericia;
 DROP TABLE IF EXISTS perito;
 DROP TABLE IF EXISTS reparo;
 DROP TABLE IF EXISTS oficina;
@@ -135,34 +136,34 @@ DROP TABLE IF EXISTS automovel;
 
 ---------------- 5 e 6 fim -------------
 
----------------- 7 COMECO -------------
+---------------- 7,8 COMECO -------------
 
 CREATE TABLE automovel(
-    automovel_pk SERIAL PRIMARY KEY;
-    marca VARCHAR(20),
-    modelo VARCHAR(15),
-    placa VARCHAR(7),
+    automovel_pk SERIAL PRIMARY KEY,
+    marca VARCHAR(20) NOT NULL,
+    modelo VARCHAR(15) NOT NULL,
+    placa CHAR(7),
     preco NUMERIC,
     ano SMALLINT
 );
 
 CREATE TABLE segurado(
-    nome VARCHAR(100),
-    cpf VARCHAR(11) PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf CHAR(11) PRIMARY KEY,
     idade SMALLINT,
     data_nascimento DATE
 );
 
 CREATE TABLE perito(
-    nome VARCHAR(100),
-    cpf VARCHAR(11) PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf CHAR(11) PRIMARY KEY,
     idade SMALLINT,
     data_nascimento DATE
 );
 
 CREATE TABLE oficina(
-    oficina SERIAL PRIMARY KEY,
-    nome VARCHAR(20),
+    oficina_pk SERIAL PRIMARY KEY,
+    nome VARCHAR(20) NOT NULL,
     data_criacao DATE
 );
 
@@ -183,16 +184,39 @@ CREATE TABLE sinistro(
     seguro_fk INTEGER NOT NULL REFERENCES seguro(seguro_pk)
 );
 
+
 CREATE TABLE pericia(
     pericia_pk SERIAL PRIMARY KEY,
-    perito_fk VARCHAR(11) NOT NULL REFERENCES perito(cpf);
+    perito_fk VARCHAR(11) NOT NULL REFERENCES perito(cpf),
     automovel_fk SERIAL NOT NULL REFERENCES automovel(automovel_pk),
-    descricao TEXT
+    descricao TEXT,
+    sinistro_fk INTEGER NOT NULL REFERENCES sinistro(sinistro_pk)
 );
 
 CREATE TABLE reparo(
     preco NUMERIC,
-    descricao TEXT
+    descricao TEXT,
+    oficina_fk INTEGER NOT NULL REFERENCES oficina(oficina_pk),
+    automovel_fk INTEGER NOT NULL REFERENCES automovel(automovel_pk)
 );
 
+-------------- 7,8 FIM ------------
+-------------- 9 COMECO ---------
 
+DROP TABLE pericia;
+DROP TABLE sinistro;
+DROP TABLE seguro;
+DROP TABLE reparo;
+DROP TABLE perito;
+DROP TABLE segurado;
+DROP TABLE oficina;
+DROP TABLE automovel;
+
+------------- 8,9 FIM ------------
+
+------------- 10 COMECO ----------
+
+-- criaria uma tabela endereco para ter uma fk apontando para oficina, caso a mesma oficina tenha varios imoveis
+-- e a pericia teria uma fk apontando para um endereco do local ocorrido
+
+------------- 10 FIM -------------
