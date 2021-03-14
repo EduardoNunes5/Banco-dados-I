@@ -7,7 +7,8 @@ CREATE TABLE automovel(
     modelo VARCHAR(15),
     placa VARCHAR(7),
     preco NUMERIC,
-    ano SMALLINT
+    ano SMALLINT,
+    cpf_proprietario VARCHAR(11)
 );
 
 
@@ -86,7 +87,7 @@ ALTER TABLE reparo ADD PRIMARY KEY (reparo_pk);
 
 ---------------- 4 COMECO ----------
 
--- considerei o seguro ser ligado a um automovel e a um segurado, assim o automovel pode ser ligado a diferentes segurados
+-- considerei o seguro ser ligado a um automovel e a um segurado, assim o automovel pode ser ligado a diferentes seguros com segurados diferentes
 
 ALTER TABLE seguro ADD COLUMN segurado_fk VARCHAR(11);
 ALTER TABLE seguro ADD COLUMN automovel_fk INTEGER;
@@ -144,7 +145,8 @@ CREATE TABLE automovel(
     modelo VARCHAR(15) NOT NULL,
     placa CHAR(7),
     preco NUMERIC,
-    ano SMALLINT
+    ano SMALLINT,
+    cpf_proprietario VARCHAR(11)
 );
 
 CREATE TABLE segurado(
@@ -217,6 +219,6 @@ DROP TABLE automovel;
 ------------- 10 COMECO ----------
 
 -- criaria uma tabela endereco para ter uma fk apontando para oficina, caso a mesma oficina tenha varios imoveis
--- e a pericia teria uma fk apontando para um endereco do local ocorrido
+-- e a pericia teria uma fk apontando para um endereco do local ocorrido ou no sinistro
 
 ------------- 10 FIM -------------

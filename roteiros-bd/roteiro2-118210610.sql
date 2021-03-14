@@ -1,5 +1,10 @@
 -- roteiro 2 - Eduardo Afonso Nunes da Silva
 
+-- questao 1 --
+-- Criacao de uma tabela com os campos codigo_tarefa(INTEGER),
+-- descricao(TEXT), cpf_funcionario (VARCHAR(11)), categoria(INTEGER),
+-- estado_tarefa CHAR(1)
+
 CREATE TABLE tarefas(
     codigo_tarefa INTEGER,
     descricao TEXT,
@@ -206,9 +211,10 @@ ALTER TABLE tarefas ADD CONSTRAINT fk_func FOREIGN KEY (func_resp_cpf) REFERENCE
 
 -- Questao 11 --
 
+ALTER TABLE tarefas ALTER COLUMN func_resp_cpf DROP NOT NULL;
+
 ALTER TABLE tarefas DROP CONSTRAINT check_stat_pec;
-ALTER TABLE tarefas ADD CONSTRAINT func_idnull CHECK ((func_resp_cpf is NOT NULL AND status = 'E') or 
-status = 'C' or status = 'P') ;
+ALTER TABLE tarefas ADD CONSTRAINT func_idnull CHECK (((status = 'C' OR status = 'E') AND func_resp_cpf IS NOT NULL) OR status = 'P') ;
 
 
 ALTER TABLE tarefas DROP CONSTRAINT fk_func;
