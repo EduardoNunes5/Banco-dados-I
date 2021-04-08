@@ -58,5 +58,5 @@ SELECT p.pname, e.fname FROM employee e, project p, works_on w
 where p.pnumber = w.pno AND w.essn = e.ssn;
 
 -- Q18
-SELECT d.dependent_name, e.fname, d.relationship FROM dependent d, employee e, works_on w
+SELECT e.fname, d.dependent_name, d.relationship FROM dependent d, employee e, works_on w
 WHERE e.ssn = d.essn AND w.essn = e.ssn AND w.pno = 91;
