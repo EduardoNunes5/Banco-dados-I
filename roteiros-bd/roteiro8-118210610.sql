@@ -106,4 +106,3 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER check_mgr BEFORE INSERT OR UPDATE ON department FOR EACH ROW EXECUTE PROCEDURE check_mgr();
-DROP TRIGGER check_mgr ON department;
